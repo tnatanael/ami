@@ -2,12 +2,12 @@
 
 namespace Enniel\Ami;
 
-use React\Stream\Stream;
 use Clue\React\Ami\Client;
 use Illuminate\Support\Arr;
 use Clue\React\Ami\ActionSender;
 use React\EventLoop\LoopInterface;
-use React\SocketClient\ConnectorInterface;
+use React\Socket\ConnectionInterface;
+use React\Socket\ConnectorInterface;
 
 class Factory
 {
@@ -17,13 +17,13 @@ class Factory
     protected $loop;
 
     /**
-     * @var \React\SocketClient\ConnectorInterface
+     * @var \React\Socket\ConnectorInterface
      */
     protected $connector;
 
     /**
      * @param \React\EventLoop\LoopInterface         $loop
-     * @param \React\SocketClient\ConnectorInterface $connector
+     * @param \React\Socket\ConnectorInterface $connector
      */
     public function __construct(LoopInterface $loop, ConnectorInterface $connector)
     {
@@ -43,7 +43,7 @@ class Factory
         foreach (['host', 'port', 'username', 'secret'] as $key) {
             $options[$key] = Arr::get($options, $key, null);
         }
-        $promise = $this->connector->create($options['host'], $options['port'])->then(function (Stream $stream) {
+        $promise = $this->connector->connect($options['host'].':'.$options['port'])->then(function (ConnectionInterface $stream) {
             return new Client($stream, new Parser());
         });
         if (!is_null($options['username'])) {

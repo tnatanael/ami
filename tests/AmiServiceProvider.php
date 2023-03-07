@@ -3,10 +3,12 @@
 namespace Enniel\Ami\Tests;
 
 use Enniel\Ami\Factory;
-use React\Stream\Stream;
 use React\EventLoop\LoopInterface;
-use React\SocketClient\ConnectorInterface;
+use React\Socket\ConnectorInterface;
+use React\Socket\ConnectionInterface;
 use Enniel\Ami\Tests\Factory as TestFactory;
+use React\Stream\DuplexResourceStream;
+use React\Stream\DuplexStreamInterface;
 
 class AmiServiceProvider extends \Enniel\Ami\Providers\AmiServiceProvider
 {
@@ -24,10 +26,10 @@ class AmiServiceProvider extends \Enniel\Ami\Providers\AmiServiceProvider
      */
     protected function registerStream()
     {
-        $this->app->singleton(Stream::class, function ($app) {
-            return new Stream(fopen('php://memory', 'r+'), $app[LoopInterface::class]);
+        $this->app->singleton(ConnectionInterface::class, function ($app) {
+            return new Connection(fopen('php://temp', 'r+'), $app[LoopInterface::class]);
         });
-        $this->app->alias(Stream::class, 'ami.stream');
+        $this->app->alias(ConnectionInterface::class, 'ami.stream');
     }
 
     /**
@@ -36,7 +38,7 @@ class AmiServiceProvider extends \Enniel\Ami\Providers\AmiServiceProvider
     protected function registerFactory()
     {
         $this->app->singleton(Factory::class, function ($app) {
-            return new TestFactory($app[LoopInterface::class], $app[ConnectorInterface::class], $app[Stream::class]);
+            return new TestFactory($app[LoopInterface::class], $app[ConnectorInterface::class], $app[ConnectionInterface::class]);
         });
         $this->app->alias(Factory::class, 'ami.factory');
     }

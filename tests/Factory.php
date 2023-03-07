@@ -3,20 +3,23 @@
 namespace Enniel\Ami\Tests;
 
 use Enniel\Ami\Parser;
-use React\Stream\Stream;
 use Clue\React\Ami\Client;
+use React\Promise;
 use React\EventLoop\LoopInterface;
-use React\Promise\FulfilledPromise;
-use React\SocketClient\ConnectorInterface;
+use React\Socket\ConnectionInterface;
+use React\Socket\ConnectorInterface;
 
 class Factory extends \Enniel\Ami\Factory
 {
     /**
      * @param \React\EventLoop\LoopInterface         $loop
-     * @param \React\SocketClient\ConnectorInterface $connector
-     * @param \React\Stream\Stream                   $stream
+     * @param \React\Socket\ConnectorInterface       $connector
+     * @param \React\Stream\ConnectionInterface     $stream
      */
-    public function __construct(LoopInterface $loop, ConnectorInterface $connector, Stream $stream)
+
+    protected $stream;
+
+    public function __construct(LoopInterface $loop, ConnectorInterface $connector, ConnectionInterface $stream)
     {
         parent::__construct($loop, $connector);
         $this->stream = $stream;
@@ -31,6 +34,6 @@ class Factory extends \Enniel\Ami\Factory
      */
     public function create(array $options = [])
     {
-        return new FulfilledPromise(new Client($this->stream, new Parser()));
+        return Promise\resolve(new Client($this->stream, new Parser()));
     }
 }

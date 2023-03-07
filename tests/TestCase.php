@@ -2,12 +2,13 @@
 
 namespace Enniel\Ami\Tests;
 
-use React\Stream\Stream;
 use Illuminate\Config\Repository;
 use React\EventLoop\LoopInterface;
 use Illuminate\Container\Container;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Console\Application as Console;
+use React\Socket\ConnectionInterface;
+use React\Stream\DuplexStreamInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +19,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected $loop;
 
     /**
-     * @var \React\Stream\Stream
+     * @var ConnectionInterface
      */
     protected $stream;
 
@@ -42,12 +43,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         (new EventServiceProvider($app))->register();
         (new AmiServiceProvider($app))->register();
         $this->loop = $app[LoopInterface::class];
-        $this->loop->nextTick(function () {
+        $this->loop->futureTick(function () {
             if (!$this->running) {
                 $this->loop->stop();
             }
         });
-        $this->stream = $app[Stream::class];
+        $this->stream = $app[ConnectionInterface::class];
         $this->events = $app['events'];
         $this->app = $app;
     }

@@ -3,8 +3,8 @@
 return [
     'host' => '127.0.0.1',
     'port' => 5038,
-    'username' => null,
-    'secret' => null,
+    'username' => 'application',
+    'secret' => 'bhu8BHU*',
     'dongle' => [
         'sms' => [
             'device' => null,
