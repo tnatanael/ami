@@ -51,8 +51,8 @@ class AmiListen extends AmiAbstract
         $name = $event->getName();
         $options = Arr::get($this->events, $name, []);
         $params = [$event, $options];
-        $this->dispatcher->fire('ami.events.*', $params);
-        $this->dispatcher->fire('ami.events.'.$name, $params);
+        $this->dispatcher->dispatch('ami.events.*', $params);
+        $this->dispatcher->dispatch('ami.events.'.$name, $params);
     }
 
     public function client(Client $client)
@@ -67,6 +67,6 @@ class AmiListen extends AmiAbstract
             $this->info('closed listen ami');
         });
         $client->on('event', [$this, 'eventEmitter']);
-        $this->dispatcher->fire('ami.listen.started', [$this, $client]);
+        $this->dispatcher->dispatch('ami.listen.started', [$this, $client]);
     }
 }

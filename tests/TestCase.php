@@ -11,6 +11,7 @@ use Illuminate\Console\Application as Console;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
+    protected $app;
     /**
      * @var \React\EventLoop\LoopInterface
      */

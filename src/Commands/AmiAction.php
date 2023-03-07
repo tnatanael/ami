@@ -59,7 +59,7 @@ class AmiAction extends AmiAbstract
         $request = $this->request($action, $options);
 
         $this->dispatcher->fire('ami.action.sended', [$this, $action, $request]);
-
+        
         $request->then(
             function (Response $response) use ($action) {
                 $this->dispatcher->fire('ami.action.responsed', [$this, $action, $response]);

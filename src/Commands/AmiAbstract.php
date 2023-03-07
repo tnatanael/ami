@@ -50,6 +50,7 @@ abstract class AmiAbstract extends Command
         $client = $this->connector->create($options);
         $client->then([$this, 'client'], [$this, 'writeException']);
         $this->loop->run();
+        return 1;
     }
 
     public function client(Client $client)
