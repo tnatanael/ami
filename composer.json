@@ -1,19 +1,8 @@
 {
-    "name": "enniel/ami",
+    "name": "tnatanael/ami",
     "type": "library",
     "description": "Provide asterisk ami to laravel",
-    "keywords": [
-        "Enniel",
-        "Ami",
-        "Asterisk"
-    ],
-    "homepage": "https://github.com/Enniel/Ami",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Enniel"
-        }
-    ],
     "require": {
         "php": ">=5.6.0",
         "ext-mbstring": "*",
