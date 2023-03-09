@@ -4,8 +4,6 @@ namespace Enniel\Ami\Providers;
 
 use Enniel\Ami\Factory;
 use Enniel\Ami\Commands\AmiCli;
-use Enniel\Ami\Commands\AmiSms;
-use Enniel\Ami\Commands\AmiUssd;
 use React\Socket\Connector;
 use Enniel\Ami\Commands\AmiAction;
 use Enniel\Ami\Commands\AmiListen;
@@ -36,10 +34,8 @@ class AmiServiceProvider extends ServiceProvider
         $this->registerEventLoop();
         $this->registerConnector();
         $this->registerFactory();
-        $this->registerDongleUssd();
         $this->registerAmiListen();
         $this->registerAmiAction();
-        $this->registerDongleSms();
         $this->registerAmiCli();
         $this->commands([
             'command.ami.dongle.ussd',
@@ -89,28 +85,6 @@ class AmiServiceProvider extends ServiceProvider
             return new AmiAction($app['events'], $app['ami.eventloop'], $app['ami.factory'], $app['config']['ami']);
         });
         $this->app->alias(AmiAction::class, 'command.ami.action');
-    }
-
-    /**
-     * Register the dongle sms.
-     */
-    protected function registerDongleSms()
-    {
-        $this->app->singleton(AmiSms::class, function ($app) {
-            return new AmiSms($app['events'], $app['ami.eventloop'], $app['ami.factory'], $app['config']['ami']);
-        });
-        $this->app->alias(AmiSms::class, 'command.ami.dongle.sms');
-    }
-
-    /**
-     * Register the dongle ussd.
-     */
-    protected function registerDongleUssd()
-    {
-        $this->app->singleton(AmiUssd::class, function ($app) {
-            return new AmiUssd();
-        });
-        $this->app->alias(AmiUssd::class, 'command.ami.dongle.ussd');
     }
 
     /**
