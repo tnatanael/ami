@@ -5,11 +5,6 @@ return [
     'port' => 5038,
     'username' => 'application',
     'secret' => 'bhu8BHU*',
-    'dongle' => [
-        'sms' => [
-            'device' => null,
-        ],
-    ],
     'events' => [
         'AGIExec' => [
         ],
@@ -46,24 +41,6 @@ return [
         'DTMF' => [
         ],
         'Dial' => [
-        ],
-        'DongleDeviceEntry' => [
-        ],
-        'DongleNewCUSD' => [
-        ],
-        'DongleNewUSSDBase64' => [
-        ],
-        'DongleNewUSSD' => [
-        ],
-        'DongleSMSStatus' => [
-        ],
-        'DongleShowDevicesComplete' => [
-        ],
-        'DongleStatus' => [
-        ],
-        'DongleUSSDStatus' => [
-        ],
-        'DonglePortFail' => [
         ],
         'ExtensionStatus' => [
         ],
