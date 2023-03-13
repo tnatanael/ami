@@ -7,6 +7,7 @@ use Clue\React\Ami\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Clue\React\Ami\Protocol\Response;
+use Illuminate\Support\Facades\Log;
 
 class AmiAction extends AmiAbstract
 {
@@ -56,6 +57,10 @@ class AmiAction extends AmiAbstract
         }
 
         $action = $this->argument('action');
+
+        Log::info($action);
+        Log::info($options);
+
         $request = $this->request($action, $options);
 
         $this->dispatcher->dispatch('ami.action.sended', [$this, $action, $request]);
