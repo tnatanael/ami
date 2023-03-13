@@ -70,7 +70,8 @@ class AmiAction extends AmiAbstract
             },
             function (Exception $exception) {
                 throw $exception;
-            });
+            }
+        );
     }
 
     public function responseMonitor(Response $response)
