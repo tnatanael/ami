@@ -5,6 +5,7 @@ namespace Enniel\Ami;
 use Clue\React\Ami\Client;
 use Illuminate\Support\Arr;
 use Clue\React\Ami\ActionSender;
+use Illuminate\Support\Facades\Log;
 use React\EventLoop\LoopInterface;
 use React\Socket\ConnectionInterface;
 use React\Socket\ConnectorInterface;
@@ -43,6 +44,9 @@ class Factory
         foreach (['host', 'port', 'username', 'secret'] as $key) {
             $options[$key] = Arr::get($options, $key, null);
         }
+
+        Log::info($options);
+        
         $promise = $this->connector->connect($options['host'].':'.$options['port'])->then(function (ConnectionInterface $stream) {
             return new Client($stream, new Parser());
         });
