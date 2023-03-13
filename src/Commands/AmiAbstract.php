@@ -77,7 +77,11 @@ abstract class AmiAbstract extends Command
 
     public function request($action, array $options = [])
     {
-        return $this->client->request($this->client->createAction($action, $options));
+        $action = $this->client->createAction($action, $options);
+
+        Log::info($action);
+
+        return $this->client->request($action);
     }
 
     public function stop()
