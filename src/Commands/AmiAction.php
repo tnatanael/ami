@@ -63,10 +63,6 @@ class AmiAction extends AmiAbstract
 
         $request = $this->request($action, $options);
 
-        Log::info($request);
-
-        
-
         $this->dispatcher->dispatch('ami.action.sended', [$this, $action, $request]);
         
         $request->then(

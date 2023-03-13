@@ -49,12 +49,8 @@ abstract class AmiAbstract extends Command
             $options[$key] = $value;
         }
 
+        Log::info($options);
         $client = $this->connector->create($options);
-
-        Log::info('Client:');
-        Log::info($client);
-
-
         $client->then([$this, 'client'], [$this, 'writeException']);
         $this->loop->run();
         return 1;
@@ -81,14 +77,7 @@ abstract class AmiAbstract extends Command
 
     public function request($action, array $options = [])
     {
-        Log::info('teste');
-        Log::info($this->client);
-
-        $action = $this->client->createAction($action, $options);
-
-        Log::info($action);
-
-        return $this->client->request($action);
+        return $this->client->request($this->client->createAction($action, $options));
     }
 
     public function stop()
