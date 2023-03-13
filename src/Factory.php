@@ -44,12 +44,14 @@ class Factory
         foreach (['host', 'port', 'username', 'secret'] as $key) {
             $options[$key] = Arr::get($options, $key, null);
         }
-
-        Log::info($options);
         
         $promise = $this->connector->connect($options['host'].':'.$options['port'])->then(function (ConnectionInterface $stream) {
+
             return new Client($stream, new Parser());
+        }, function($reason) {
+            Log::info($reason);
         });
+        
         if (!is_null($options['username'])) {
             $promise = $promise->then(function (Client $client) use ($options) {
                 $sender = new ActionSender($client);
