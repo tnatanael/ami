@@ -78,7 +78,7 @@ abstract class AmiAbstract extends Command
     public function request($action, array $options = [])
     {
         Log::info('teste');
-        Log::info($this);
+        Log::info($this->client);
 
         $action = $this->client->createAction($action, $options);
 
