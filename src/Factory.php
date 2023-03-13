@@ -46,10 +46,11 @@ class Factory
         }
         
         $promise = $this->connector->connect($options['host'].':'.$options['port'])->then(function (ConnectionInterface $stream) {
-            Log::info('FullFiled');
-            return new Client($stream, new Parser());
-        }, function($reason) {
-            Log::info($reason);
+            $client = new Client($stream, new Parser());
+
+            Log::info($client);
+
+            return $client;
         });
 
         if (!is_null($options['username'])) {
