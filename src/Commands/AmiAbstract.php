@@ -48,8 +48,6 @@ abstract class AmiAbstract extends Command
             $value = is_null($value) ? Arr::get($this->config, $key, null) : $value;
             $options[$key] = $value;
         }
-
-        Log::info($options);
         $client = $this->connector->create($options);
         $client->then([$this, 'client'], [$this, 'writeException']);
         $this->loop->run();
