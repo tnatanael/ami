@@ -46,19 +46,18 @@ class Factory
         }
         
         $promise = $this->connector->connect($options['host'].':'.$options['port'])->then(function (ConnectionInterface $stream) {
-            $client = new Client($stream, new Parser());
-
-            Log::info($client);
-
-            return $client;
+            Log::info('Client');
+            return new Client($stream, new Parser());
         });
 
         if (!is_null($options['username'])) {
             $promise = $promise->then(function (Client $client) use ($options) {
+                Log::info('Login');
                 $sender = new ActionSender($client);
 
                 return $sender->login($options['username'], $options['secret'])->then(
                     function () use ($client) {
+                        Log::info('Login Success');
                         return $client;
                     },
                     function ($error) use ($client) {
