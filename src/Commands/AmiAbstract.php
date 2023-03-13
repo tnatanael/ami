@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Events\Dispatcher;
 use React\EventLoop\LoopInterface;
 use Clue\React\Ami\Protocol\Response;
+use Illuminate\Support\Facades\Log;
 
 abstract class AmiAbstract extends Command
 {
@@ -74,6 +75,7 @@ abstract class AmiAbstract extends Command
 
     public function request($action, array $options = [])
     {
+        Log::info('Test');
         return $this->client->request($this->client->createAction($action, $options));
     }
 
