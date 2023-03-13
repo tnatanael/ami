@@ -49,8 +49,12 @@ abstract class AmiAbstract extends Command
             $options[$key] = $value;
         }
 
-        Log::info($options);
         $client = $this->connector->create($options);
+
+        Log::info('Client:');
+        Log::info($client);
+
+
         $client->then([$this, 'client'], [$this, 'writeException']);
         $this->loop->run();
         return 1;
